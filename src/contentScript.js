@@ -1,43 +1,29 @@
-'use strict';
+var get = require('get-file');
 
-// Content script file will run in the context of web page.
-// With content script you can manipulate the web pages using
-// Document Object Model (DOM).
-// You can also pass information to the parent extension.
+let url = window.location.href;
+let base_url = url.replace("https://github.com/", '');
 
-// We execute this script by making an entry in manifest.json file
-// under `content_scripts` property
+if(base_url.split('/').length >= 2) {
+    console.log("url: " + base_url);
 
-// For more information on Content Scripts,
-// See https://developer.chrome.com/extensions/content_scripts
+    let username = base_url.split('/')[0];
+    let reponame = base_url.split('/')[1];
 
-// Log `title` of current active web page
-const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
-console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
-);
+    console.log("username: " + username);
+    console.log("reponame: " + reponame);
 
-// Communicate with background file by sending a message
-chrome.runtime.sendMessage(
-  {
-    type: 'GREETINGS',
-    payload: {
-      message: 'Hello, my name is Con. I am from ContentScript.',
-    },
-  },
-  response => {
-    console.log(response.message);
-  }
-);
+    let target_filename = 'ghc-auto-completion.json';
+    let target_url = `https://raw.githubusercontent.com/${username}/${reponame}/main/${target_filename}`;
+    fetch(target_url).then((r) => {
+        r.text().then((d) => {
+            let completions = JSON.parse(d)
 
-// Listen for message
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
-  }
+            // TODO
+            // do something with parsed JSON
 
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
-  sendResponse({});
-  return true;
-});
+        })
+    })
+    .catch(error => {
+        console.error("There was an error!", error);
+    })
+}
