@@ -1,6 +1,8 @@
 # GitHub Comment as CLI 
 
-This project is to turn GitHub Comment to as CLI with auto suggestion/completion features. Some people uses GitHub comment to run customized GitHub Action. For example, if you want to run the proposed machine learning model, you can say `!train --infra jarvislabs --gpu_type A100 --gpu_num 8 --set-dataset cifar10`. 
+This project is to turn GitHub Comment to as CLI with auto suggestion/completion features. Some people uses GitHub comment to run customized GitHub Action. 
+
+For example, if you want to run the proposed machine learning model, you can say `!train --infra jarvislabs --gpu_type A100 --gpu_num 8 --set-dataset cifar10`. 
 
 ## How to use
 
@@ -14,4 +16,4 @@ We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is t
 
 ## How to contribute
 
-This project is bootstrapped with [chrome-extension-cli](https://github.com/dutiyesh/chrome-extension-cli) project. Therefore, if you want to contribute more features, please read the documents to understand how directories are organized. 
+This project is TypeScript based, and it is structured from scratch. You only need `npm` to get started. 
