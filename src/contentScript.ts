@@ -1,5 +1,3 @@
-var get = require('get-file');
-
 let url = window.location.href;
 let base_url = url.replace("https://github.com/", '');
 
