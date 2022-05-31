@@ -1,21 +1,17 @@
-# <img src="public/icons/icon_48.png" width="45" align="left"> Ghc Auto Completion
+# GitHub Comment as CLI 
 
-My Chrome Extension
+This project is to turn GitHub Comment to as CLI with auto suggestion/completion features. Some people uses GitHub comment to run customized GitHub Action. For example, if you want to run the proposed machine learning model, you can say `!train --infra jarvislabs --gpu_type A100 --gpu_num 8 --set-dataset cifar10`. 
 
-## Features
+## How to use
 
-- Feature 1
-- Feature 2
+We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is to create `ghc-auto-completion.json` under root directory of your repository. The chrome extension will find/read the file from the current directory, and try to interfere your interactions within GitHub comments. 
 
-## Install
+### Basic structure of JSON 
 
-[**Chrome** extension]() <!-- TODO: Add chrome extension link inside parenthesis -->
+```json
+...
+```
 
-## Contribution
+## How to contribute
 
-Suggestions and pull requests are welcomed!.
-
----
-
-This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
-
+This project is bootstrapped with [chrome-extension-cli](https://github.com/dutiyesh/chrome-extension-cli) project. Therefore, if you want to contribute more features, please read the documents to understand how directories are organized. 
