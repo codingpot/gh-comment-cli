@@ -11,7 +11,48 @@ We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is t
 ### Basic structure of JSON 
 
 ```json
-...
+{
+  "!run": {
+    "experiment" : {
+      "--infra" : {
+        "type" : "string",
+        "choice" : [
+          "jarvislabs",
+          "datacrunch",
+          "vertexai",
+          "..."
+        ]
+      }
+      "--gpu-type" : {
+        "type" : "string",
+        "choice" : [
+          "rtx5000",
+          "rtx6000",
+          "v100",
+          "a100",
+          "..."
+        ]
+      }
+      "--gpu-num" : {
+        "type" : "integer"
+      }
+    }
+    "deployment" : {
+      "--infra" : {
+        "type" : "string",
+        "choice" : [
+          "huggingface",
+          "gke",
+          "aks",
+          "eks",
+          "appengine",
+          "..."
+        ]
+      }
+    }
+    ...
+  }
+}
 ```
 
 ## How to contribute
