@@ -20,18 +20,28 @@ We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is t
           "jarvislabs",
           "datacrunch",
           "vertexai",
-          "..."
+          ...
         ]
       }
       "--gpu-type" : {
         "type" : "string",
-        "choice" : [
-          "rtx5000",
-          "rtx6000",
-          "v100",
-          "a100",
-          "..."
-        ]
+        "dependency" : "--infra",
+        "jarvislabs" : {
+          "choice" : [
+            "rtx5000",
+            "rtx6000",
+            "v100",
+            "a100",
+          ]        
+        }
+        "datacrunch" : 
+          "choice" : [
+            "a100",
+            "a6000",
+            "v100"
+          ]
+        }
+        ...
       }
       "--gpu-num" : {
         "type" : "integer"
@@ -46,7 +56,7 @@ We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is t
           "aks",
           "eks",
           "appengine",
-          "..."
+          ...
         ]
       }
     }
