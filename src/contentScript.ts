@@ -1,20 +1,26 @@
+let KEYCODE_TAB = 9;
 var rules;
+var tab_and_focus = false;
 
 document.addEventListener('keydown', (event) => {
     let key = event.key;
-    let code = event.code;
+    let code = event.keyCode;
     let element = <HTMLInputElement>document.getElementById("new_comment_field");
 
     if(element && 
        element == document.activeElement && 
        element?.value[0] == '!') {
+
+        if(key == 'Tab' || code == KEYCODE_TAB) {
+            element.focus();
+            event.preventDefault();
+        }
+        
         console.log(`Key pressed ${key} \r\n Key code value: ${code}`);
         console.log(element?.value); 
 
         let tokens = element?.value.split(' ');
         let token_len = tokens.length;
-        // TODO
-        // do something with rules when keyboard is typed
     }
 }, false);
 
