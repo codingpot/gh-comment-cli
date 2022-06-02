@@ -1,0 +1,13 @@
+{
+    "!run" : {
+        "experiment" : {
+            "--infra" : {
+                "choice" : [
+                    "jarvislabs",
+                    "datacrunch",
+                    "vertexai"
+                ]
+            }
+        }
+    }
+}
