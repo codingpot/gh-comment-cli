@@ -12,7 +12,7 @@ We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is t
 
 ```json
 {
-  "!run": {
+  "run": {
     "experiment" : {
       "--infra" : {
         "type" : "string",
