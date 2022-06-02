@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "GitHub Comment as CLI",
   "action": {
-    "default_title": "GHC CLI",
+    "default_title": "GHC CLI"
   },
   "content_scripts": [
     {
