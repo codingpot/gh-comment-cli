@@ -1,10 +1,21 @@
+var rules;
+
 document.addEventListener('keydown', (event) => {
     let key = event.key;
     let code = event.code;
     let element = <HTMLInputElement>document.getElementById("new_comment_field");
 
-    console.log(`Key pressed ${key} \r\n Key code value: ${code}`);
-    console.log(element?.value);
+    if(element && 
+       element == document.activeElement && 
+       element?.value[0] == '!') {
+        console.log(`Key pressed ${key} \r\n Key code value: ${code}`);
+        console.log(element?.value); 
+
+        let tokens = element?.value.split(' ');
+        let token_len = tokens.length;
+        // TODO
+        // do something with rules when keyboard is typed
+    }
 }, false);
 
 let url = window.location.href;
@@ -27,11 +38,7 @@ if(base_url.split('/').length >= 2) {
 
         if(r.status != 404) {
             r.text().then((d) => {
-                let completions = JSON.parse(d)
-
-                // TODO
-                // do something with parsed JSON
-
+                rules = JSON.parse(d)
             })
 
         }
