@@ -1,26 +1,91 @@
-let KEYCODE_TAB = 9;
-var rules;
-var tab_and_focus = false;
+import autocomplete from 'autocompleter'
 
-document.addEventListener('keydown', (event) => {
-    let key = event.key;
-    let code = event.keyCode;
+var countries = [
+    { label: 'run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=4' },
+    { label: 'run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=2' },
+    { label: 'run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=1' },
+    { label: 'run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=2' },
+    { label: 'run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=1' },
+    { label: 'run exp --infra=vertexai --gpu_type=v100 --gpu_num=8' },
+    { label: 'run exp --infra=dtacrunch --gpu_type=v100 --gpu_num=4' },
+    { label: 'run deploy --infra=huggingface' },
+    { label: 'run deploy --infra=gke' },
+    { label: 'run deploy --infra=aks' },
+];
+
+const KEYCODE_TAB = 9;
+const GHC_DIV_ID = "ghc_completion";
+const GHC_INPUT_ID = "ghc_completion_input";
+
+var rules;
+var ghc_div_open = false;
+
+document.addEventListener('keyup', (event) => {
     let element = <HTMLInputElement>document.getElementById("new_comment_field");
+    let ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
+
+    if( element == document.activeElement &&
+        ghc_div_open && 
+        event.key == "!" ) {
+
+        element!.value = "";
+
+        let input_div = <HTMLInputElement>document.getElementById(GHC_INPUT_ID);
+        autocomplete({
+            input: input_div!,
+            fetch: function(text, update) {
+                text = text.toLowerCase();
+                // you can also use AJAX requests instead of preloaded data
+                var suggestions = countries.filter(n => n.label.toLowerCase().startsWith(text));
+                update(suggestions);
+            },
+            onSelect: function(item) {
+                input_div!.value = <string>item.label;
+            },
+            render: function(item, currentValue) {
+                const itemElement = document.createElement("div");
+                itemElement.textContent = <string>item.label;
+                return itemElement;
+            }
+        });
+
+        element.blur();
+        input_div.focus();        
+    }
+});
+
+document.addEventListener('keypress', (event) => {
+    let key = event.key;
+    let element = <HTMLInputElement>document.getElementById("new_comment_field");
+
+    console.log(key);
 
     if(element && 
        element == document.activeElement && 
-       element?.value[0] == '!') {
+       key == "!") {
 
-        if(key == 'Tab' || code == KEYCODE_TAB) {
-            element.focus();
-            event.preventDefault();
+        console.log(element?.value);
+        console.log(element?.value.length);
+
+        let ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
+        if(ghc_div == null) {
+            let overlay_div = <HTMLElement>document.createElement("div");
+            overlay_div.id = GHC_DIV_ID;
+            overlay_div.style.cssText = "display: none; position: fixed; z-index: 1; left: 0; top: 0;   width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,  0,0.4);";
+
+            let input_div = <HTMLElement>document.createElement("input");
+            input_div.id = GHC_INPUT_ID;
+            input_div.style.cssText = "position: absolute; top: 30%; left: 50%; width:40%; font-size: 25px; color: black; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%);";
+            overlay_div.appendChild(input_div);
+
+            document.body.appendChild(overlay_div);
         }
-        
-        console.log(`Key pressed ${key} \r\n Key code value: ${code}`);
-        console.log(element?.value); 
 
-        let tokens = element?.value.split(' ');
-        let token_len = tokens.length;
+        if(ghc_div_open == false){
+            ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
+            ghc_div.style.display = 'block';
+            ghc_div_open = true;
+        }
     }
 }, false);
 

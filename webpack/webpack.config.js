@@ -9,6 +9,10 @@ module.exports = {
       path: path.join(__dirname, "../dist"),
       filename: "[name].js",
    },
+    output: {
+        path: path.join(__dirname, "../dist"),
+        filename: "[name].css",
+    },
    resolve: {
       extensions: [".ts", ".js"],
    },
@@ -19,6 +23,10 @@ module.exports = {
             loader: "ts-loader",
             exclude: /node_modules/,
          },
+          {
+              test: /\.css$/,
+              use: ["style-loader", "css-loader"],
+          },
       ],
    },
    plugins: [

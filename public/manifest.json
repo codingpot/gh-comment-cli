@@ -12,7 +12,10 @@
         "https://github.com/*"
       ],
       "js": [
-        "contentScript.js"
+          "contentScript.js"
+      ],
+      "css": [
+          "contentStyle.css" 
       ]
     }
   ]
