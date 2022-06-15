@@ -90,7 +90,7 @@ if(base_url.split('/').length >= 2) {
     console.log("username: " + username);
     console.log("reponame: " + reponame);
 
-    let target_filename = 'ghc-auto-completion.json';
+    let target_filename = 'ghc-auto-completion.txt';
     let target_url = `https://raw.githubusercontent.com/${username}/${reponame}/main/${target_filename}`;
     fetch(target_url).then((r) => {
         console.log('1')
@@ -99,9 +99,10 @@ if(base_url.split('/').length >= 2) {
         if(r.status != 404) {
             r.text().then((d) => {
                 // TODO: do something with d
-                list_of_completions = d.split('\n');
-                
-                list_of_completions.forEach((entry, index) => {
+                list_of_completions = [];
+                var tmp = d.split('\n');
+
+                tmp.forEach((entry, index) => {
                     list_of_completions[index] = {label: entry}
                 })
             })
