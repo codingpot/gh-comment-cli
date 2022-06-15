@@ -15,14 +15,14 @@ We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is t
 ```
 run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=4
 run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=2
-run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=1'
+run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=1
 run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=2
-run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=1'
-run exp --infra=vertexai --gpu_type=v100 --gpu_num=8'
-run exp --infra=dtacrunch --gpu_type=v100 --gpu_num=4'
-run deploy --infra=huggingface'
-run deploy --infra=gke'
-run deploy --infra=aks'
+run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=1
+run exp --infra=vertexai --gpu_type=v100 --gpu_num=8
+run exp --infra=dtacrunch --gpu_type=v100 --gpu_num=4
+run deploy --infra=huggingface
+run deploy --infra=gke
+run deploy --infra=aks
 ...
 ```
 
