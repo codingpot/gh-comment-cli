@@ -1,5 +1,7 @@
 # GitHub Comment as CLI 
 
+![](https://i.postimg.cc/d3J04RhN/ezgif-1-b81d321f5a.gif)
+
 This project is to turn GitHub Comment to as CLI with auto suggestion/completion features. Some people uses GitHub comment to run customized GitHub Action. 
 
 For example, if you want to run the proposed machine learning model, you can say `!train --infra jarvislabs --gpu_type A100 --gpu_num 8 --set-dataset cifar10`. 
