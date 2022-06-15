@@ -1,124 +1,107 @@
 import autocomplete from 'autocompleter'
 
+const CUR_REPO_URL = window.location.href;
+const CUR_REPO_NAME = CUR_REPO_URL.replace("https://github.com/", '');
+const BASE_FILE_URL = "https://raw.githubusercontent.com";
+const GHC_CLI_FILENAME = 'ghc-auto-completion.txt';
+
+const GHC_CLI_DIV_TAG = "ghc_completion";
+const GHC_CLI_INPUT_TAG = "ghc_completion_input";
+const GHC_TAG = "new_comment_field"
+
+const GHC_CLI_DIV_STYLE = "display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,  0,0.4);";
+const GHC_CLI_INPUT_STYLE= "position: absolute; top: 30%; left: 50%; width:40%; font-size: 25px; color: black; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%);";
+
+var ghc_div_open = false;
 var list_of_completions = [{label: 'dummy'}];
 
-const KEYCODE_TAB = 9;
-const GHC_DIV_ID = "ghc_completion";
-const GHC_INPUT_ID = "ghc_completion_input";
-
-var rules;
-var ghc_div_open = false;
-
 document.addEventListener('keyup', (event) => {
-    let element = <HTMLInputElement>document.getElementById("new_comment_field");
-    let ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
-    let input_div = <HTMLInputElement>document.getElementById(GHC_INPUT_ID);
+    let ghc = <HTMLInputElement>document.getElementById(GHC_TAG);
+    let ghc_cli_div = <HTMLElement>document.getElementById(GHC_CLI_DIV_TAG);
+    let gch_cli_input = <HTMLInputElement>document.getElementById(GHC_CLI_INPUT_TAG);
 
-    if( element == document.activeElement &&
-        ghc_div_open && 
-        event.key == "!" ) {
+    if( ghc_div_open && event.key == "!" &&
+        ghc == document.activeElement ) {
 
-        element!.value = "";
+        ghc!.value = "";
 
-        let input_div = <HTMLInputElement>document.getElementById(GHC_INPUT_ID);
         autocomplete({
-            input: input_div!,
-            fetch: function(text, update) {
-                text = text.toLowerCase();
-                // you can also use AJAX requests instead of preloaded data
-                var suggestions = list_of_completions.filter(n => n.label.toLowerCase().startsWith(text));
+            input: gch_cli_input!,
+            fetch: function(item_text, update) {
+                item_text = item_text.toLowerCase();
+                const suggestions = list_of_completions.filter(completion => 
+                    completion.label.toLowerCase()
+                                    .startsWith(item_text)
+                );
+                
                 update(suggestions);
             },
-            onSelect: function(item) {
-                input_div!.value = <string>item.label;
+            onSelect: function(selected) {
+                gch_cli_input!.value = <string>selected.label;
             },
-            render: function(item, currentValue) {
-                const itemElement = document.createElement("div");
-                itemElement.textContent = <string>item.label;
-                return itemElement;
+            render: function(filtered, _) {
+                const filtered_renderer = document.createElement("div");
+                filtered_renderer.textContent = <string>filtered.label;
+
+                return filtered_renderer;
             }
         });
 
-        element.blur();
-        input_div.focus();        
+        ghc.blur();
+        gch_cli_input.focus();        
     }
-    else if( input_div == document.activeElement &&
-             ghc_div_open &&
-             event.key == "Enter" ) {
-        const cli_text = input_div.value;
+    else if( ghc_div_open && event.key == "Enter" &&             
+             gch_cli_input == document.activeElement) {                
+        const obtained_cli = gch_cli_input.value;
         
-        input_div.value = "";
-        ghc_div.style.display = "none";
+        gch_cli_input.value = "";
+        ghc_cli_div.style.display = "none";
 
-        element.value = cli_text;
-        element.focus();
+        ghc.value = obtained_cli;
+        ghc.focus();
     }
 });
 
 document.addEventListener('keypress', (event) => {
-    let key = event.key;
     let element = <HTMLInputElement>document.getElementById("new_comment_field");
 
-    console.log(key);
+    if(element && event.key == "!" &&
+       element == document.activeElement ) {
+        const ghc_div = <HTMLElement>document.getElementById(GHC_CLI_DIV_TAG);
 
-    if(element && 
-       element == document.activeElement && 
-       key == "!") {
-
-        console.log(element?.value);
-        console.log(element?.value.length);
-
-        let ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
         if(ghc_div == null) {
-            let overlay_div = <HTMLElement>document.createElement("div");
-            overlay_div.id = GHC_DIV_ID;
-            overlay_div.style.cssText = "display: none; position: fixed; z-index: 1; left: 0; top: 0;   width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,  0,0.4);";
+            let ghc_cli_div = <HTMLElement>document.createElement("div");
+            ghc_cli_div.id = GHC_CLI_DIV_TAG;
+            ghc_cli_div.style.cssText = GHC_CLI_DIV_STYLE;
 
-            let input_div = <HTMLElement>document.createElement("input");
-            input_div.id = GHC_INPUT_ID;
-            input_div.style.cssText = "position: absolute; top: 30%; left: 50%; width:40%; font-size: 25px; color: black; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%);";
-            overlay_div.appendChild(input_div);
+            let ghc_cli_input = <HTMLElement>document.createElement("input");
+            ghc_cli_input.id = GHC_CLI_INPUT_TAG;
+            ghc_cli_input.style.cssText = GHC_CLI_INPUT_STYLE;
+            ghc_cli_div.appendChild(ghc_cli_input);
 
-            document.body.appendChild(overlay_div);
+            document.body.appendChild(ghc_cli_div);
         }
 
         if(ghc_div_open == false){
-            ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
             ghc_div.style.display = 'block';
             ghc_div_open = true;
         }
     }
 }, false);
 
-let url = window.location.href;
-let base_url = url.replace("https://github.com/", '');
+if(CUR_REPO_NAME.split('/').length >= 2) {
+    const username = CUR_REPO_NAME.split('/')[0];
+    const reponame = CUR_REPO_NAME.split('/')[1];
+    const ghc_cli_filepath = `${BASE_FILE_URL}/${username}/${reponame}/main/${GHC_CLI_FILENAME}`;
 
-if(base_url.split('/').length >= 2) {
-    console.log("url: " + base_url);
-
-    let username = base_url.split('/')[0];
-    let reponame = base_url.split('/')[1];
-
-    console.log("username: " + username);
-    console.log("reponame: " + reponame);
-
-    let target_filename = 'ghc-auto-completion.txt';
-    let target_url = `https://raw.githubusercontent.com/${username}/${reponame}/main/${target_filename}`;
-    fetch(target_url).then((r) => {
-        console.log('1')
-        console.log(r.status)
-
-        if(r.status != 404) {
-            r.text().then((d) => {
-                // TODO: do something with d
+    fetch(ghc_cli_filepath).then((response) => {
+        if(response.status != 404) {
+            response.text().then((data) => {
                 list_of_completions = [];
-                var tmp = d.split('\n');
-
-                tmp.forEach((entry, index) => {
+                data.split('\n').forEach((entry, index) => {
                     list_of_completions[index] = {label: entry}
                 })
             })
-
         }
     })
     .catch(error => {
