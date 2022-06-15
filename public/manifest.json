@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "GHC CLI",
   "version": "1.0.0",
-  "description": "This chrome extension convert comment sections in GitHub as CLI. Include ghc-auto-completion.txt in the root of any repository, then this extension reads it and makes CLI based on the content of it.",
+  "description": "This chrome extension convert comment sections in GitHub as CLI",
   "action": {
     "default_title": "GHC CLI"
   },
