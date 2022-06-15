@@ -50,15 +50,22 @@ document.addEventListener('keyup', (event) => {
         ghc.blur();
         gch_cli_input.focus();        
     }
-    else if( ghc_div_open && event.key == "Enter" &&             
-             gch_cli_input == document.activeElement) {                
-        const obtained_cli = gch_cli_input.value;
+    else if( ghc_div_open && 
+             gch_cli_input == document.activeElement) {
+        if(event.key == "Escape") {
+            gch_cli_input.value = "";
+            ghc_cli_div.style.display = "none";
+            ghc.focus();
+        }
+        else if(event.key == "Enter") {
+            const obtained_cli = gch_cli_input.value;
         
-        gch_cli_input.value = "";
-        ghc_cli_div.style.display = "none";
-
-        ghc.value = obtained_cli;
-        ghc.focus();
+            gch_cli_input.value = "";
+            ghc_cli_div.style.display = "none";
+    
+            ghc.value = obtained_cli;
+            ghc.focus();
+        }
     }
 });
 
