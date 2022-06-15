@@ -1,17 +1,6 @@
 import autocomplete from 'autocompleter'
 
-var countries = [
-    { label: 'run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=4' },
-    { label: 'run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=2' },
-    { label: 'run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=1' },
-    { label: 'run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=2' },
-    { label: 'run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=1' },
-    { label: 'run exp --infra=vertexai --gpu_type=v100 --gpu_num=8' },
-    { label: 'run exp --infra=dtacrunch --gpu_type=v100 --gpu_num=4' },
-    { label: 'run deploy --infra=huggingface' },
-    { label: 'run deploy --infra=gke' },
-    { label: 'run deploy --infra=aks' },
-];
+var list_of_completions = [{label: 'dummy'}];
 
 const KEYCODE_TAB = 9;
 const GHC_DIV_ID = "ghc_completion";
@@ -36,7 +25,7 @@ document.addEventListener('keyup', (event) => {
             fetch: function(text, update) {
                 text = text.toLowerCase();
                 // you can also use AJAX requests instead of preloaded data
-                var suggestions = countries.filter(n => n.label.toLowerCase().startsWith(text));
+                var suggestions = list_of_completions.filter(n => n.label.toLowerCase().startsWith(text));
                 update(suggestions);
             },
             onSelect: function(item) {
@@ -109,7 +98,12 @@ if(base_url.split('/').length >= 2) {
 
         if(r.status != 404) {
             r.text().then((d) => {
-                rules = JSON.parse(d)
+                // TODO: do something with d
+                list_of_completions = d.split('\n');
+                
+                list_of_completions.forEach((entry, index) => {
+                    list_of_completions[index] = {label: entry}
+                })
             })
 
         }
