@@ -9,10 +9,11 @@ module.exports = {
       path: path.join(__dirname, "../dist"),
       filename: "[name].js",
    },
-    output: {
+ /*   output: {
         path: path.join(__dirname, "../dist"),
         filename: "[name].css",
     },
+*/
    resolve: {
       extensions: [".ts", ".js"],
    },

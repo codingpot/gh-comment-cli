@@ -12,6 +12,7 @@ var ghc_div_open = false;
 document.addEventListener('keyup', (event) => {
     let element = <HTMLInputElement>document.getElementById("new_comment_field");
     let ghc_div = <HTMLElement>document.getElementById(GHC_DIV_ID);
+    let input_div = <HTMLInputElement>document.getElementById(GHC_INPUT_ID);
 
     if( element == document.activeElement &&
         ghc_div_open && 
@@ -40,6 +41,17 @@ document.addEventListener('keyup', (event) => {
 
         element.blur();
         input_div.focus();        
+    }
+    else if( input_div == document.activeElement &&
+             ghc_div_open &&
+             event.key == "Enter" ) {
+        const cli_text = input_div.value;
+        
+        input_div.value = "";
+        ghc_div.style.display = "none";
+
+        element.value = cli_text;
+        element.focus();
     }
 });
 
