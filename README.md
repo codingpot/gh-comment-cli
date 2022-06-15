@@ -6,63 +6,22 @@ For example, if you want to run the proposed machine learning model, you can say
 
 ## How to use
 
-We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is to create `ghc-auto-completion.json` under root directory of your repository. The chrome extension will find/read the file from the current directory, and try to interfere your interactions within GitHub comments. 
+We will deliver `ghc-cli` chrome extension shortly. Then all you need to do is to create `ghc-auto-completion.txt` under root directory of your repository. The chrome extension will find/read the file from the current directory, and try to interfere your interactions within GitHub comments. 
 
-### Basic structure of JSON 
+### Basic structure of TXT 
 
-```json
-{
-  "run": {
-    "experiment" : {
-      "--infra" : {
-        "type" : "string",
-        "choice" : [
-          "jarvislabs",
-          "datacrunch",
-          "vertexai",
-          ...
-        ]
-      }
-      "--gpu-type" : {
-        "type" : "string",
-        "dependency" : "--infra",
-        "jarvislabs" : {
-          "choice" : [
-            "rtx5000",
-            "rtx6000",
-            "v100",
-            "a100",
-          ]        
-        }
-        "datacrunch" : 
-          "choice" : [
-            "a100",
-            "a6000",
-            "v100"
-          ]
-        }
-        ...
-      }
-      "--gpu-num" : {
-        "type" : "integer"
-      }
-    }
-    "deployment" : {
-      "--infra" : {
-        "type" : "string",
-        "choice" : [
-          "huggingface",
-          "gke",
-          "aks",
-          "eks",
-          "appengine",
-          ...
-        ]
-      }
-    }
-    ...
-  }
-}
+```
+run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=4
+run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=2
+run exp --infra=jarvislabs --gpu_type=a100 --gpu_num=1'
+run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=2
+run exp --infra=jarvislabs --gpu_type=v100 --gpu_num=1'
+run exp --infra=vertexai --gpu_type=v100 --gpu_num=8'
+run exp --infra=dtacrunch --gpu_type=v100 --gpu_num=4'
+run deploy --infra=huggingface'
+run deploy --infra=gke'
+run deploy --infra=aks'
+...
 ```
 
 ## How to contribute
