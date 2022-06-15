@@ -9,11 +9,6 @@ module.exports = {
       path: path.join(__dirname, "../dist"),
       filename: "[name].js",
    },
- /*   output: {
-        path: path.join(__dirname, "../dist"),
-        filename: "[name].css",
-    },
-*/
    resolve: {
       extensions: [".ts", ".js"],
    },
@@ -32,7 +27,10 @@ module.exports = {
    },
    plugins: [
       new CopyPlugin({
-         patterns: [{from: ".", to: ".", context: "public"}]
+         patterns: [
+            {from: ".", to: ".", context: "public"},
+            {from: "contentStyle.css", to: ".", context: "src"}
+         ]
       }),
    ],
 };
