@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack/webpack.config.js"
+    "build": "webpack --config webpack/webpack.config.js",
+    "prepare": "husky install",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -12,6 +14,9 @@
   "devDependencies": {
     "@types/chrome": "^0.0.188",
     "copy-webpack-plugin": "^11.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
     "ts-loader": "^9.3.0",
     "typescript": "^4.7.2",
     "webpack": "^5.72.1",
@@ -21,5 +26,8 @@
     "autocompleter": "^6.1.3",
     "css-loader": "^6.7.1",
     "style-loader": "^3.3.1"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
