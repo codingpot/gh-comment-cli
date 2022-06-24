@@ -52,6 +52,8 @@ document.addEventListener('keyup', (event) => {
     }
     else if( ghc_div_open && 
              gch_cli_input == document.activeElement) {
+        console.log(event.key);
+
         if(event.key == "Escape") {
             gch_cli_input.value = "";
             ghc_cli_div.style.display = "none";
@@ -65,6 +67,162 @@ document.addEventListener('keyup', (event) => {
     
             ghc.value = obtained_cli;
             ghc.focus();
+        }
+        /*
+        else if(event.key == "Tab") {
+            const input_cli = gch_cli_input.value;
+
+            console.log("Tab pressed");
+            console.log(input_cli);
+
+            const input_cli_sub = input_cli.split(" ");
+
+            const suggestions = list_of_completions.map(item => 
+                item.label.split(" ")
+            );
+
+            let results: any[] = [];
+
+            for(let i = 0; i < suggestions.length; i++) {
+                let sub_result = "";
+
+                for(let j = 0; j < input_cli_sub.length; j++) {
+                    if(input_cli_sub[j] == suggestions[i][j]) {
+                        if(sub_result == "") {
+                            sub_result = input_cli_sub[j];
+                        }
+                        else {
+                            sub_result = sub_result + " " + input_cli_sub[j];
+                        }
+                    }
+                    else {
+                        if(j != suggestions[i].length - 1) {
+                            if(sub_result == "") {
+                                sub_result = suggestions[i][j+1];
+                            }
+                            else {
+                                sub_result = sub_result + " " + suggestions[i][j+1];
+                            }
+                        }
+                    }
+                }
+
+                if(!results.find(element => element == sub_result)) {
+                    results.push(sub_result);
+                }
+            }
+
+            console.log(results);
+
+            autocomplete({
+                input: gch_cli_input!,
+                fetch: function(item_text, update) {
+                    item_text = item_text.toLowerCase();
+                    const sugs = results.filter(completion =>
+                        completion.toLowerCase()
+                        .startsWith(item_text)
+                    );
+
+                    update(sugs);                    
+                },
+                onSelect: function(selected) {
+                    gch_cli_input!.value = <string>selected.label;
+                },
+                render: function(filtered, _) {
+                    console.log(filtered);
+
+                    const filtered_renderer = document.createElement("div");
+                    filtered_renderer.textContent = <string>filtered;
+
+                    return filtered_renderer;
+                }
+            });
+
+ //           console.log(results);
+        }
+        */
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    let gch_cli_input = <HTMLInputElement>document.getElementById(GHC_CLI_INPUT_TAG);
+
+    if (event.key == "Tab") {
+        if( ghc_div_open &&
+            gch_cli_input == document.activeElement) {        
+            
+            event.preventDefault();
+
+            const input_cli = gch_cli_input.value;
+
+            console.log("Tab pressed");
+            console.log(input_cli);
+
+            const input_cli_sub = input_cli.split(" ");
+
+            const suggestions = list_of_completions.map(item =>
+                item.label.split(" ")
+            );
+
+            let results: any[] = [];
+
+            for(let i = 0; i < suggestions.length; i++) {
+                let sub_result = "";
+
+                for(let j = 0; j < input_cli_sub.length; j++) {
+                    if(input_cli_sub[j] == suggestions[i][j]) {
+                        if(sub_result == "") {
+                            sub_result = input_cli_sub[j];
+                        }
+                        else {
+                            sub_result = sub_result + " " + input_cli_sub[j];
+                        }
+                    }
+                    else {
+                        if(j != suggestions[i].length - 1) {
+                            if(sub_result == "") {
+                                sub_result = suggestions[i][j+1];
+                            }
+                            else {
+                                sub_result = sub_result + " " + suggestions[i][j+1];
+                            }
+                        }
+                    }
+                }
+
+                if(!results.find(element => element == sub_result)) {
+                    if(sub_result != "" && sub_result != undefined) {
+                        results.push(sub_result);
+                    }
+                }
+            }
+
+            console.log(results);
+
+            autocomplete({
+                input: gch_cli_input!,
+                fetch: function(item_text, update) {
+                    item_text = item_text.toLowerCase();
+                    const sugs = results.filter(result =>
+                        result.startsWith(item_text)
+                    );
+
+                    console.log(sugs);
+
+                    update(sugs);
+                },
+                onSelect: function(selected) {
+                    gch_cli_input!.value = <string>selected;
+                },
+                render: function(filtered, _) {
+                    console.log(filtered);
+
+                    const filtered_renderer = document.createElement("div");
+                    filtered_renderer.textContent = <string>filtered;
+
+                    return filtered_renderer;
+                }
+            });
         }
     }
 });
