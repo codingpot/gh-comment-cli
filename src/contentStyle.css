@@ -1,8 +1,8 @@
 .autocomplete {
-    background-color: white;
-    z-index: 1;
+  background-color: white;
+  z-index: 1;
 }
 
 .autocomplete .selected {
-    background-color: #c3d4c7;
+  background-color: #c3d4c7;
 }
